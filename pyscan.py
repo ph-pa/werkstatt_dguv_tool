@@ -3,8 +3,11 @@ from PyPDF4 import PdfFileReader, PdfFileWriter
 from pdf2image import convert_from_path
 import pytesseract
 
-# Prompt the user for file name
-file_name = input("Enter the file name: ")
+# Prompt the user for scanned file
+file_name = input("Enter the scan file name: ")
+
+# Prompt the user for Ticketnummer
+ticket_nummer = input("Please enter the Ticketnummer: ")
 
 # Open the scanned PDF file
 with open(file_name, 'rb') as file:
@@ -17,7 +20,7 @@ with open(file_name, 'rb') as file:
         images = convert_from_path(file_name, first_page=i+1, last_page=i+1)
         if images:
             # Use OCR to extract the text from the image
-            text = pytesseract.image_to_string(images[0], config='--psm 1')
+            text = pytesseract.image_to_string(images[0], config='--psm 12') #PSM 12 (Sparse text with OSD) seems to get the best results regarding serial number recognition.
             
             # Split the text by whitespace
             words = text.split()
@@ -31,6 +34,8 @@ with open(file_name, 'rb') as file:
             if index != -1:
                 # Use the next word as the new file name
                 new_file_name = words[index + 1]
+                # Add additional number to the file name
+                new_file_name =  new_file_name + "_" + ticket_nummer
                 # Create a new PDF file for each page
                 output = PdfFileWriter()
                 output.addPage(page)
