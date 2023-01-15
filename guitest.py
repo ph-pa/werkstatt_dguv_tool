@@ -1,16 +1,20 @@
 import os
+import tkinter as tk
 from tkinter import *
 from tkinter import filedialog
 from PyPDF4 import PdfFileReader, PdfFileWriter
 from pdf2image import convert_from_path
 import pytesseract
 
-def browse_file():
-    global file_path
-    file_path = filedialog.askopenfilename()
-    file_label.config(text=file_path)
+def open_file():
+    global file_name
+    file_name = filedialog.askopenfilename(initialdir = '/', title = "Select file", filetypes = (("PDF files", "*.pdf"), ("all files", "*.*")))
+    file_path.set(file_name)
 
-def extract_and_save():
+def extract_scan_save():
+    global file_name
+    global ticket_nummer
+    
     # Open the scanned PDF file
     with open(file_path, 'rb') as file:
         pdf = PdfFileReader(file)
@@ -46,19 +50,24 @@ def extract_and_save():
                 print("No image data found on page", i+1)
         print("Extraction, Scanning and Saving Done!")
 
-root = Tk()
-root.title("PDF Extractor")
+root = tk.Tk()
+root.title("Scan and Extract")
 
-file_label = Label(root, text="No file selected")
-file_label.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+file_path = tk.StringVar()
 
-browse_button = Button(root, text="Browse", command=browse_file)
-browse_button.grid(row=1, column=0, padx=10, pady=10)
+open_file_button = tk.Button(root, text = "Open File", command = open_file)
+open_file_button.grid(row = 0, column = 0, padx = 10, pady = 10)
 
-ticket_nummer = Entry(root)
-ticket_nummer.grid(row=1, column=1, padx=10, pady=10)
+file_path_label = tk.Label(root, textvariable = file_path)
+file_path_label.grid(row = 0, column = 1, padx = 10, pady = 10)
 
-extract_button = Button(root, text="Extract and Save", command=extract_and_save)
-extract_button.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
+ticket_nummer_label = tk.Label(root, text = "Ticketnummer: ")
+ticket_nummer_label.grid(row = 1, column = 0, padx = 10, pady = 10)
 
-root.mainloop
+ticket_nummer_entry = tk.Entry(root)
+ticket_nummer_entry.grid(row = 1, column = 1, padx = 10, pady = 10)
+
+extract_scan_save_button = tk.Button(root, text = "Extract, Scan and Save", command = extract_scan_save)
+extract_scan_save_button.grid(row = 2, column = 0, columnspan = 2, padx = 10, pady = 10)
+
+root.mainloop()
