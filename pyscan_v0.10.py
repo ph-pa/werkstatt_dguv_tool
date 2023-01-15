@@ -1,0 +1,44 @@
+import os
+from PyPDF4 import PdfFileReader, PdfFileWriter
+from pdf2image import convert_from_path
+import pytesseract
+
+# Prompt the user for file name
+file_name = input("Enter the file name: ")
+
+# Open the scanned PDF file
+with open(file_name, 'rb') as file:
+    pdf = PdfFileReader(file)
+
+    # Iterate through each page
+    for i in range(pdf.numPages):
+        page = pdf.getPage(i)
+        # Extract the image of the page
+        images = convert_from_path(file_name, first_page=i+1, last_page=i+1)
+        if images:
+            # Use OCR to extract the text from the image
+            text = pytesseract.image_to_string(images[0], config='--psm 1')
+            
+            # Split the text by whitespace
+            words = text.split()
+
+            # Find the index of the word "Seriennummer"
+            try:
+                index = words.index("(Seriennummer):")
+            except ValueError:
+                index = -1
+
+            if index != -1:
+                # Use the next word as the new file name
+                new_file_name = words[index + 1]
+                # Create a new PDF file for each page
+                output = PdfFileWriter()
+                output.addPage(page)
+                with open("{}.pdf".format(new_file_name), "wb") as outputStream:
+                    output.write(outputStream)
+                # Delete the text file
+                #os.remove("{}.txt".format(new_file_name))
+        else:
+            print("No image data found on page", i+1)
+
+print("Extraction, Scanning and Saving Done!")
