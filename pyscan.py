@@ -20,7 +20,11 @@ with open(file_name, 'rb') as file:
         images = convert_from_path(file_name, first_page=i+1, last_page=i+1)
         if images:
             # Use OCR to extract the text from the image
-            text = pytesseract.image_to_string(images[0], config='--psm 12') #PSM 12 (Sparse text with OSD) seems to get the best results regarding serial number recognition.
+            text = pytesseract.image_to_string(images[0], lang="deu", config='--psm 12') #PSM 12 (Sparse text with OSD) seems to get the best results regarding serial number recognition.
+            
+            # Write the extracted text to a .txt file
+            with open('scanned-page-{}.txt'.format(i+1), 'w') as f:
+                f.write(text)
             
             # Split the text by whitespace
             words = text.split()
