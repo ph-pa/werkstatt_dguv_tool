@@ -4,21 +4,31 @@ from tkinter import *
 from tkinter import filedialog
 from PyPDF4 import PdfFileReader, PdfFileWriter
 from pdf2image import convert_from_path
+from PIL import Image, ImageTk
 import pytesseract
+import threading
 
 def open_file():
     global file_name
     file_name = filedialog.askopenfilename(initialdir = '/', title = "Select file", filetypes = (("PDF files", "*.pdf"), ("all files", "*.*")))
-    file_path.set(file_name)
+    if len(file_name) > 35:
+        file_path.set("..." + file_name[-32:])
+    else:
+        file_path.set(file_name)
     
 def save_to():
     global save_directory
     save_directory = filedialog.askdirectory(initialdir = '/', title = "Save To")
-    save_to_label.configure(text = save_directory)
+    if len(save_directory) > 35:
+        save_to_label.configure(text = "..." + save_directory[-32:])
+    else:
+        save_to_label.configure(text = save_directory)
 
 def extract_scan_save():
     global file_name
-    global ticket_nummer
+    global save_directory
+    # Change the text of the button to show the current status
+    extract_scan_save_button.configure(text = "Processing...")
     
     # Open the scanned PDF file
     with open(file_path.get(), 'rb') as file:
@@ -27,6 +37,7 @@ def extract_scan_save():
         # Iterate through each page
         for i in range(pdf.numPages):
             page = pdf.getPage(i)
+            status_label.configure(text = "Processing page {} of {}".format(i+1, pdf.numPages))
             # Extract the image of the page
             images = convert_from_path(file_path.get(), first_page=i+1, last_page=i+1)
             if images:
@@ -42,21 +53,50 @@ def extract_scan_save():
                     index = -1
 
                 if index != -1:
-                    # Use the next word as the new file name
+                    # Use the next word
                     new_file_name = words[index + 1]
                     # Add additional number to the file name
                     new_file_name =  new_file_name + "_" + ticket_nummer_entry.get()
                     # Create a new PDF file for each page
                     output = PdfFileWriter()
                     output.addPage(page)
-                    with open("{}.pdf".format(save_directory, new_file_name), "wb") as outputStream:
+                    with open("{}/{}.pdf".format(save_directory, new_file_name), "wb") as outputStream:
                         output.write(outputStream)
-            else:
-                print("No image data found on page", i+1)
-        print("Extraction, Scanning and Saving Done!")
+                else:
+                    print("No image data found on page", i+1)
+    # Change the text of the button back to the original text
+    extract_scan_save_button.configure(text = "Extract, Scan and Save")
+    #Update the status label to show that the process has completed
+    status_label.configure(text = "Done!")
+
+def on_button_click():
+    thread = threading.Thread(target=extract_scan_save)
+    thread.start()
+
+        
+print("Extraction, Scanning and Saving Done!")
+
+
 
 root = tk.Tk()
-root.title("Scan and Extract")
+root.resizable(False, False)
+root.geometry("420x240")
+root.title("DGUV Werkstatt Extract Tool")
+# Bechtle icon in the upper left corner
+root.wm_iconbitmap("C:/Users/PhilippPavelic/Documents/Code/pyscan/bechtle.ico")
+
+root.grid_columnconfigure(0, minsize=100, weight=1)
+
+file_path = tk.StringVar()
+#save_directory = tk.StringVar()
+
+# Adding Bechtle Logo
+icon = Image.open("C:/Users/PhilippPavelic/Documents/Code/pyscan/bechtle.ico")
+icon = icon.resize((64, 64))
+icon = ImageTk.PhotoImage(icon)
+
+icon_label = tk.Label(root, image=icon)
+icon_label.grid(row=0, column=3)
 
 file_path = tk.StringVar()
 ticket_nummer = tk.StringVar()
@@ -81,5 +121,7 @@ ticket_nummer_entry.grid(row = 1, column = 1, padx = 10, pady = 10)
 
 extract_scan_save_button = tk.Button(root, text = "Extract, Scan and Save", command = extract_scan_save)
 extract_scan_save_button.grid(row = 2, column = 0, columnspan = 2, padx = 10, pady = 10)
+
+
 
 root.mainloop()
