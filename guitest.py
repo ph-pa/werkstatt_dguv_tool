@@ -16,14 +16,14 @@ def extract_scan_save():
     global ticket_nummer
     
     # Open the scanned PDF file
-    with open(file_path, 'rb') as file:
+    with open(file_path.get(), 'rb') as file:
         pdf = PdfFileReader(file)
 
         # Iterate through each page
         for i in range(pdf.numPages):
             page = pdf.getPage(i)
             # Extract the image of the page
-            images = convert_from_path(file_path, first_page=i+1, last_page=i+1)
+            images = convert_from_path(file_path.get(), first_page=i+1, last_page=i+1)
             if images:
                 # Use OCR to extract the text from the image
                 text = pytesseract.image_to_string(images[0], lang="deu", config='--psm 12')
@@ -40,7 +40,7 @@ def extract_scan_save():
                     # Use the next word as the new file name
                     new_file_name = words[index + 1]
                     # Add additional number to the file name
-                    new_file_name =  new_file_name + "_" + ticket_nummer.get()
+                    new_file_name =  new_file_name + "_" + ticket_nummer_entry.get()
                     # Create a new PDF file for each page
                     output = PdfFileWriter()
                     output.addPage(page)
@@ -54,6 +54,7 @@ root = tk.Tk()
 root.title("Scan and Extract")
 
 file_path = tk.StringVar()
+ticket_nummer = tk.StringVar()
 
 open_file_button = tk.Button(root, text = "Open File", command = open_file)
 open_file_button.grid(row = 0, column = 0, padx = 10, pady = 10)
