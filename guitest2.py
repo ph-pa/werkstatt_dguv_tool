@@ -8,13 +8,18 @@ from PIL import Image, ImageTk
 import pytesseract
 import threading
 
-def open_file():
+""" def open_file():
     global file_name
     file_name = filedialog.askopenfilename(initialdir = '/', title = "Select file", filetypes = (("PDF files", "*.pdf"), ("all files", "*.*")))
     if len(file_name) > 35:
         file_path.set("..." + file_name[-32:])
     else:
-        file_path.set(file_name)
+        file_path.set(file_name) """
+        
+def open_file():
+    global file_name
+    file_name = filedialog.askopenfilename(initialdir = '/', title = "Select file", filetypes = (("PDF files", "*.pdf"), ("all files", "*.*")))
+    file_path.set(file_name)
     
 def save_to():
     global save_directory
@@ -28,6 +33,9 @@ def extract_scan_save():
     global file_name
     global save_directory
     # Change the text of the button to show the current status
+    if save_directory == '':
+        status_label.configure(text = "Please specify the directory to save the files.")
+        return
     extract_scan_save_button.configure(text = "Processing...")
     # Open the scanned PDF file
     with open(file_path.get(), 'rb') as file:
@@ -80,10 +88,10 @@ root.resizable(True, False)
 root.geometry("420x240")
 root.title("DGUV Werkstatt Extract Tool")
 # Bechtle icon in the upper left corner
-root.wm_iconbitmap("C:/Users/PhilippPavelic/Documents/Code/pyscan/bechtle.ico")
+root.wm_iconbitmap("C:/Users/fly/Documents/pyscan/bechtle.ico")
 
 # Adding Bechtle Logo
-icon = Image.open("C:/Users/PhilippPavelic/Documents/Code/pyscan/bechtle.ico")
+icon = Image.open("C:/Users/fly/Documents/pyscan/bechtle.ico")
 icon = icon.resize((64, 64))
 icon = ImageTk.PhotoImage(icon)
 
