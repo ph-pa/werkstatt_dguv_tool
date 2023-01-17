@@ -78,7 +78,7 @@ def on_button_click():
     thread.start()
  
 root = tk.Tk()
-root.resizable(True, False)
+root.resizable(False, False)
 root.geometry("420x240")
 root.title("DGUV Werkstatt Extract Tool")
 
@@ -90,32 +90,42 @@ icon = icon.resize((64, 64))
 icon = ImageTk.PhotoImage(icon)
 
 icon_label = tk.Label(root, image=icon)
-icon_label.grid(row=0, column=3)
+#icon_label.grid(row=0, column=3)
+icon_label.place(x=340, y=0)
 
 file_path = tk.StringVar()
 
 open_file_button = tk.Button(root, text = "Open File", command = open_file)
-open_file_button.grid(row = 0, column = 0, padx = 10, pady = 10)
+#open_file_button.grid(row = 0, column = 0, padx = 10, pady = 10)
+open_file_button.place(x=25, y=25, width=65, height=25)
 
 file_path_label = tk.Label(root, text = "")
-file_path_label.grid(row = 0, column = 1, padx = 10, pady = 10)
-
-ticket_nummer_label = tk.Label(root, text = "Ticketnummer: ")
-ticket_nummer_label.grid(row = 2, column = 0, padx = 10, pady = 10)
-
-ticket_nummer_entry = tk.Entry(root)
-ticket_nummer_entry.grid(row = 2, column = 1, columnspan = 2, padx = 10, pady = 10)
+#file_path_label.grid(row = 0, column = 1, padx = 10, pady = 10)
+file_path_label.place(x=110, y=27, width=220, height=25)
 
 save_to_button = tk.Button(root, text = "Save To", command = save_to)
-save_to_button.grid(row = 1, column = 0, padx = 10, pady = 10)
+#save_to_button.grid(row = 1, column = 0, padx = 10, pady = 10)
+save_to_button.place(x=25, y=75, width=65, height=25)
 
 save_to_label = tk.Label(root, text = "")
-save_to_label.grid(row = 1, column = 1, padx = 10, pady = 10)
+#save_to_label.grid(row = 1, column = 1, padx = 10, pady = 10)
+save_to_label.place(x=110, y=77, width=220, height=25)
+
+ticket_nummer_label = tk.Label(root, text = "Ticketnummer: ")
+#ticket_nummer_label.grid(row = 2, column = 0, padx = 10, pady = 10)
+ticket_nummer_label.place(x=25, y=125, width=80, height=25)
+
+ticket_nummer_entry = tk.Entry(root)
+#ticket_nummer_entry.grid(row = 2, column = 1, columnspan = 2, padx = 10, pady = 10)
+ticket_nummer_entry.place(x=185, y=125, width=150, height=25)
 
 extract_scan_save_button = tk.Button(root, text = "Extract, Scan and Save", command = on_button_click)
-extract_scan_save_button.grid(row = 3, column = 0, columnspan = 3, padx = 10, pady = 10)
+#extract_scan_save_button.grid(row = 3, column = 0, columnspan = 3, padx = 10, pady = 10)
+#extract_scan_save_button.place(x=145, y=180, width=130, height=25)
+extract_scan_save_button.place(x=145, y=180, width=130, height=25)
 
 status_label = tk.Label(root, text = "")
 status_label.grid(row = 4, column = 0, columnspan = 2, padx = 10, pady = 10)
+#status_label.place(x=110, y=75, width=230, height=25)
 
 root.mainloop()

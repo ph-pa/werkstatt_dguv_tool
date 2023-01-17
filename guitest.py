@@ -61,25 +61,32 @@ root.title("Scan and Extract")
 file_path = tk.StringVar()
 ticket_nummer = tk.StringVar()
 
-save_to_button = tk.Button(root, text = "Save To", command = save_to)
-save_to_button.grid(row = 3, column = 0, padx = 10, pady = 10)
-
-save_to_label = tk.Label(root, text = "")
-save_to_label.grid(row = 3, column = 1, padx = 10, pady = 10)
-
 open_file_button = tk.Button(root, text = "Open File", command = open_file)
 open_file_button.grid(row = 0, column = 0, padx = 10, pady = 10)
+open_file_button.place(x=110, y=75, width=230, height=25)
 
 file_path_label = tk.Label(root, textvariable = file_path)
 file_path_label.grid(row = 0, column = 1, padx = 10, pady = 10)
+#file_path_label.place(x=110, y=75, width=230, height=25)
+
+save_to_button = tk.Button(root, text = "Save To", command = save_to)
+save_to_button.grid(row = 3, column = 0, padx = 10, pady = 10)
+#save_to_button.place(x=110, y=75, width=230, height=25)
+
+save_to_label = tk.Label(root, text = "")
+save_to_label.grid(row = 3, column = 1, padx = 10, pady = 10)
+#save_to_label.place(x=110, y=75, width=230, height=25)
 
 ticket_nummer_label = tk.Label(root, text = "Ticketnummer: ")
 ticket_nummer_label.grid(row = 1, column = 0, padx = 10, pady = 10)
+#ticket_nummer_label.place(x=110, y=75, width=230, height=25)
 
 ticket_nummer_entry = tk.Entry(root)
 ticket_nummer_entry.grid(row = 1, column = 1, padx = 10, pady = 10)
+#ticket_nummer_entry.place(x=110, y=75, width=230, height=25)
 
 extract_scan_save_button = tk.Button(root, text = "Extract, Scan and Save", command = extract_scan_save)
 extract_scan_save_button.grid(row = 2, column = 0, columnspan = 2, padx = 10, pady = 10)
+#extract_scan_save_button.place(x=110, y=75, width=230, height=25)
 
 root.mainloop()
