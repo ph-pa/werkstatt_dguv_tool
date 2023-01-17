@@ -1,10 +1,10 @@
 import pandas as pd
 from fpdf import FPDF
-import csv # Needed for
+import csv 
 
 file_name = input("Enter the excel file name: ")
 
-# Open the txt file using the csv module
+""" # Open the txt file using the csv module
 with open('names.txt', newline='') as file:
     # Use the csv reader to read the file
     reader = csv.reader(file, delimiter=',')
@@ -13,7 +13,21 @@ with open('names.txt', newline='') as file:
     # Iterate through each row in the file
     for row in reader:
         # Append the first element in the row (assuming the name is the first element) to the names list
-        names.append(row[0])
+        names.append(row[0]) """
+        
+with open('names.txt', newline='') as file:
+    # Use the csv reader to read the file
+    reader = csv.reader(file, delimiter=',')
+    # Create an empty list to store the names
+    names = []
+    # Iterate through each row in the file
+    for row in reader:
+        if len(row) > 1:
+            # Append all elements in the row to the names list
+            names.extend(row)
+        else:
+            # Append the first element in the row (assuming the name is the first element) to the names list
+            names.append(row[0])
 
 # You can now use the names list for further processing
 print(names)
