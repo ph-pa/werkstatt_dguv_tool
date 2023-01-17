@@ -1,4 +1,5 @@
 import os
+import sys
 import tkinter as tk
 from tkinter import *
 from tkinter import filedialog
@@ -7,6 +8,7 @@ from pdf2image import convert_from_path
 from PIL import Image, ImageTk
 import pytesseract
 import threading
+
 
 def open_file():
     global file_name
@@ -81,7 +83,7 @@ def on_button_click():
 root = tk.Tk()
 root.resizable(False, False)
 root.geometry("420x240")
-root.title("DGUV Werkstatt Extract Tool")
+root.title("Werkstatt DGUV Tool")
 
 # Bechtle icon in the upper left corner
 root.wm_iconbitmap("C:/Users/PhilippPavelic/Documents/Code/pyscan/bechtle.ico")
@@ -92,6 +94,10 @@ icon = ImageTk.PhotoImage(icon)
 
 icon_label = tk.Label(root, image=icon)
 icon_label.place(x=340, y=0)
+
+version = sys.version_info
+version_label = tk.Label(root, text="Version: {}.{}.{}".format(version.major, version.minor, version.micro))
+version_label.place(x=20, y=215)
 
 file_path = tk.StringVar()
 
