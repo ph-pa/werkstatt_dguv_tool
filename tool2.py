@@ -80,6 +80,6 @@ name_serial_numbers = assign_serial_numbers(serial_numbers, names)
 print("Serial Numbers Assigned")
 insert_data_into_pdf(name_serial_numbers, "template.pdf", "output.pdf")
 print("Inserted into PDF")
-insert_data_into_excel(name_serial_numbers, "numbername.xlsx")
+insert_data_into_excel(name_serial_numbers, "name_seriennummer.xlsx")
 print("Inserted into excel")
 
