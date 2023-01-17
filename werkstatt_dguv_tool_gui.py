@@ -9,7 +9,9 @@ from PIL import Image, ImageTk
 import pytesseract
 import threading
 
+####
 
+####
 def open_file():
     global file_name
     file_name = filedialog.askopenfilename(initialdir = '/', title = "Select file", filetypes = (("PDF files", "*.pdf"), ("all files", "*.*")))
