@@ -50,7 +50,6 @@ def extract_scan_save():
                 text = pytesseract.image_to_string(images[0], lang="deu", config='--psm 12')
                 # Split the text by whitespace
                 words = text.split()
-
                 # Find the index of the word "Seriennummer"
                 try:
                     index = words.index("(Seriennummer):")
