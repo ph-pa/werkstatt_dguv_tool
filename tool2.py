@@ -15,6 +15,7 @@ with open('names.txt', newline='') as file:
         # Append the first element in the row (assuming the name is the first element) to the names list
         names.append(row[0]) """
         
+# Open the txt file using the csv module (row, comma, mixed)
 with open('names.txt', newline='') as file:
     # Use the csv reader to read the file
     reader = csv.reader(file, delimiter=',')
@@ -51,6 +52,13 @@ def assign_serial_numbers(serial_numbers, names):
         name_serial_numbers[names[i]] = serial_numbers[i]
     return name_serial_numbers
 
+def insert_data_into_excel(name_serial_numbers, output_path):
+    data = []
+    for name, serial_number in name_serial_numbers.items():
+        data.append([name, serial_number])
+    df = pd.DataFrame(data, columns=['Name', 'Seriennummer'])
+    df.to_excel(output_path, index=False)
+
 # Function to insert data into pdf template
 def insert_data_into_pdf(name_serial_numbers, template_path, output_path):
     pdf = FPDF()
@@ -67,5 +75,11 @@ def insert_data_into_pdf(name_serial_numbers, template_path, output_path):
 #names = ["John Doe", "Jane Doe", "Bob Smith"]
 
 serial_numbers = extract_serial_numbers(file_name)
+print("Serial Numbers Extracted")
 name_serial_numbers = assign_serial_numbers(serial_numbers, names)
+print("Serial Numbers Assigned")
 insert_data_into_pdf(name_serial_numbers, "template.pdf", "output.pdf")
+print("Inserted into PDF")
+insert_data_into_excel(name_serial_numbers, "numbername.xlsx")
+print("Inserted into excel")
+
