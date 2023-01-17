@@ -2,7 +2,10 @@ import pandas as pd
 from fpdf import FPDF
 import csv 
 
-file_name = input("Enter the excel file name: ")
+#file_name = input("Enter the excel file name: ")
+#template_path = input ("Enter the template file name: ")
+file_name = './sr.xlsx'
+template_path = './formblatt.pdf'
 
 """ # Open the txt file using the csv module
 with open('names.txt', newline='') as file:
@@ -52,22 +55,32 @@ def assign_serial_numbers(serial_numbers, names):
         name_serial_numbers[names[i]] = serial_numbers[i]
     return name_serial_numbers
 
-def insert_data_into_excel(name_serial_numbers, output_path):
+""" def insert_data_into_excel(name_serial_numbers, output_path):
     data = []
     for name, serial_number in name_serial_numbers.items():
         data.append([name, serial_number])
     df = pd.DataFrame(data, columns=['Name', 'Seriennummer'])
+    df.to_excel(output_path, index=False) """
+# This one tries to remove leading spaces and alignes seriennummer to the middle
+def insert_data_into_excel(name_serial_numbers, output_path):
+    data = []
+    for name, serial_number in name_serial_numbers.items():
+        data.append([name.strip(), str(serial_number).strip()])
+    df = pd.DataFrame(data, columns=['Name', 'Serial Number'])
+    df["Serial Number"] = df["Serial Number"].apply(lambda x: x + " ")
+    df.style.set_properties(**{'align': 'center'}, subset=['Serial Number'])
     df.to_excel(output_path, index=False)
+
 
 # Function to insert data into pdf template
 def insert_data_into_pdf(name_serial_numbers, template_path, output_path):
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_font("Arial", size=12)
+    pdf.set_font("Arial", size=11)
     # Insert the name-serial number pairs into the pdf template
     for name, serial_number in name_serial_numbers.items():
         pdf.cell(200, 10, txt="Name: {}".format(name), ln=1, align="L")
-        pdf.cell(200, 10, txt="Serial Number: {}".format(serial_number), ln=1, align="L")
+        pdf.cell(200, 10, txt="Seriennummer: {}".format(serial_number), ln=1, align="L")
     pdf.output(output_path)
 
 # Example usage
