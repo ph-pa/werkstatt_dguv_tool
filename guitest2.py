@@ -21,6 +21,7 @@ def open_file():
     file_name = filedialog.askopenfilename(initialdir = '/', title = "Select file", filetypes = (("PDF files", "*.pdf"), ("all files", "*.*")))
     file_path.set(file_name)
     
+    
 def save_to():
     global save_directory
     save_directory = filedialog.askdirectory(initialdir = '/', title = "Save To")
