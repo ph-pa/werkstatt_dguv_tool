@@ -1,4 +1,4 @@
-import os
+The git repository in the current folder is potentially unsafe as the folder is owned by someone other than the current user.import os
 from PyPDF4 import PdfFileReader, PdfFileWriter
 from pdf2image import convert_from_path
 import pytesseract
