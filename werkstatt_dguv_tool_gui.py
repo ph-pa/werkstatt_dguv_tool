@@ -8,6 +8,7 @@ from pdf2image import convert_from_path
 from PIL import Image, ImageTk
 import pytesseract
 import threading
+import base64
 
 ####
 
@@ -87,14 +88,15 @@ root.geometry("420x240")
 root.title("Werkstatt DGUV Tool")
 
 # Bechtle icon in the upper left corner
-root.wm_iconbitmap("./bechtle.ico")
+root.wm_iconbitmap("M:\Bechtle Tool\Bechtle Logos\Bechtle.ico")
 # Adding Bechtle Logo
-icon = Image.open("./bechtle.ico")
+icon = Image.open("M:\Bechtle Tool\Bechtle Logos\Bechtle.ico")
 icon = icon.resize((64, 64))
 icon = ImageTk.PhotoImage(icon)
-
 icon_label = tk.Label(root, image=icon)
 icon_label.place(x=340, y=0)
+
+
 
 version = sys.version_info
 version_label = tk.Label(root, text="Version: {}.{}.{}".format(version.major, version.minor, version.micro))
