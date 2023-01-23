@@ -88,9 +88,9 @@ root.geometry("420x240")
 root.title("Werkstatt DGUV Tool")
 
 # Bechtle icon in the upper left corner
-root.wm_iconbitmap("M:\Bechtle Tool\Bechtle Logos\Bechtle.ico")
+root.wm_iconbitmap("M:/Bechtle Tool/Bechtle Logos/test.ico")
 # Adding Bechtle Logo
-icon = Image.open("M:\Bechtle Tool\Bechtle Logos\Bechtle.ico")
+icon = Image.open("M:/Bechtle Tool/Bechtle Logos/bechtle_old.ico")
 icon = icon.resize((64, 64))
 icon = ImageTk.PhotoImage(icon)
 icon_label = tk.Label(root, image=icon)
